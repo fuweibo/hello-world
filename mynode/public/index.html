@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+   <head>
+	<title>{{ pageTitle }}</title>
+   </head>
+   <body>
+	<div>
+		<form action="login" method="post">
+			用户名：<input type="text" id="username" name="username"/><br>
+			密&nbsp码：<input type="password" id="password" name="password"/><br>
+			<input type="submit" value="登录"/>
+			<button id="regist" value="注册">注册</button>
+			<a href="/test">ss</a>
+		</form>
+	<div>
+   </body>
+
+<!--<script type="text/javascript" src="./jquery-3.2.1.min.js"></script>-->
+<script type="text/javascript" src="./jquery-3.2.1.min.js"></script>
+<script>
+	$("#regist").click(function(){
+	   var username = $("#username").val();
+	   var password = $("#password").val();
+        $.ajax({
+		url : "http://192.168.0.139:3000/regist",
+		type : "get",
+		dataType : "json",
+		//dataType : "jsonp",
+		//jsonp:'callback',
+        //jsonpCallback:"successCallback", //重要，实现跨域
+		data : {username : username , password : password},
+		success : function(data) {
+			console.log(typeof data)
+			console.log(111+","+data.id);
+			if (data) {
+				alert(`注册用户:${data.username} 成功,请登录！`)
+			}
+		},
+		error : function(data) {
+			console.log(222+","+data.responseText);
+		}
+	   });
+	});
+
+	$("#login").click(function(){
+		var username = $("#username").val();
+		var password = $("#password").val();
+		if (!username && !password){
+			alert("用户名或密码为空，请重新输入!!!")
+			return ;
+		}
+		$.ajax({
+			url : "http://192.168.0.139:3000/login",
+			type : "post",
+			dataType : "json",
+			//jsonpCallback:"successCallback", //重要，实现跨域
+			data : {username : username , password : password},
+			success : function(data){
+				console.log(1111+"===="+data)
+			},
+			error : function(data) {
+				console.log(222+"====="+data)
+			}
+		});
+	});
+</script>
+</html>
+
+
+
